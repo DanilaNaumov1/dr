@@ -166,8 +166,8 @@
         /* Конверт */
         .envelope-wrapper {
             position: relative;
-            width: 350px;
-            height: 250px;
+            width: 420px; /* Было 350px */
+            height: 300px; /* Было 250px */
             cursor: pointer;
             z-index: 10;
             transition: transform 0.3s;
@@ -206,9 +206,9 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 175px solid transparent;
-            border-right: 175px solid transparent;
-            border-bottom: 125px solid #d4c494;
+            border-left: 210px solid transparent; /* Было 175px */
+            border-right: 210px solid transparent; /* Было 175px */
+            border-bottom: 150px solid #d4c494; /* Было 125px */
             z-index: 1;
         }
 
@@ -219,22 +219,21 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 175px solid #e8d5a3;
-            border-right: 175px solid #e8d5a3;
-            border-top: 125px solid transparent;
+            border-left: 210px solid #e8d5a3; /* Было 175px */
+            border-right: 210px solid #e8d5a3; /* Было 175px */
+            border-top: 150px solid transparent; /* Было 125px */
             z-index: 2;
         }
 
-        /* Клапан конверта */
         .envelope-flap {
             position: absolute;
             top: 0;
             left: 0;
             width: 0;
             height: 0;
-            border-left: 175px solid transparent;
-            border-right: 175px solid transparent;
-            border-top: 125px solid #f4e4c1;
+            border-left: 210px solid transparent; /* Было 175px */
+            border-right: 210px solid transparent; /* Было 175px */
+            border-top: 150px solid #f4e4c1; /* Было 125px */
             transform-origin: top center;
             transition: transform 0.8s ease;
             z-index: 5;
@@ -300,9 +299,10 @@
         .envelope-wrapper.opened .letter {
             bottom: 10%;
             width: 90%;
-            height: 380px;
+            height: 520px; /* Было 380px - теперь тексту точно хватит места */
             z-index: 20;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            padding: 2.5rem 1.5rem; /* Добавили воздуха внутри листа */
         }
 
         .letter-content {
@@ -432,17 +432,42 @@
 
         @media (max-width: 768px) {
             .header h1 { font-size: 1.8rem; }
-            .envelope-wrapper { width: 300px; height: 220px; }
-            .envelope-body::before { border-left-width: 150px; border-right-width: 150px; border-bottom-width: 110px; }
-            .envelope-body::after { border-left-width: 150px; border-right-width: 150px; border-top-width: 110px; }
-            .envelope-flap { border-left-width: 150px; border-right-width: 150px; border-top-width: 110px; }
-            .letter h2 { font-size: 1.4rem; }
-            .letter p { font-size: 0.95rem; }
+            .header p { font-size: 1rem; }
+            
+            /* Увеличиваем конверт для мобильных */
+            .envelope-wrapper { width: 340px; height: 250px; }
+            .envelope-body::before { border-left-width: 170px; border-right-width: 170px; border-bottom-width: 125px; }
+            .envelope-body::after { border-left-width: 170px; border-right-width: 170px; border-top-width: 125px; }
+            .envelope-flap { border-left-width: 170px; border-right-width: 170px; border-top-width: 125px; }
+            
+            /* Делаем письмо просторным, но без прокрутки */
             .envelope-wrapper.opened .letter { 
                 bottom: 5%;
-                height: 600px; 
+                width: 95%;
+                height: auto; /* Высота подстраивается под текст */
+                min-height: 520px; /* Но не меньше 520px, чтобы лист был большим */
+                padding: 2rem 1rem;
+                z-index: 30;
             }
+            
+            .letter h2 { font-size: 1.5rem; }
+            .letter p { font-size: 1.05rem; margin: 0.6rem 0; }
+            .letter .cake { font-size: 2.8rem; }
+            .letter .signature { font-size: 1.1rem; }
+            .letter .hearts { font-size: 1.3rem; }
+            
             .moon { width: 60px; height: 60px; }
+        }
+
+                /* Для телефонов с маленькой высотой экрана */
+        @media (max-height: 740px) and (max-width: 768px) {
+            .envelope-wrapper.opened .letter {
+                min-height: 420px; /* Уменьшаем лист */
+                padding: 1rem;
+            }
+            .letter h2 { font-size: 1.3rem; }
+            .letter p { font-size: 0.95rem; margin: 0.4rem 0; }
+            .letter .cake { font-size: 2.2rem; margin: 0.5rem 0; }
         }
     </style>
 </head>
