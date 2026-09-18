@@ -298,11 +298,12 @@
 
         .envelope-wrapper.opened .letter {
             bottom: 10%;
-            width: 90%;
-            height: 520px; /* Было 380px - теперь тексту точно хватит места */
+            width: 92%;
+            height: auto;            /* Высота подстраивается под текст */
+            min-height: 580px;       /* Минимальная высота, чтобы лист был большим */
             z-index: 20;
             box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
-            padding: 2.5rem 1.5rem; /* Добавили воздуха внутри листа */
+            padding: 2.5rem 2rem;    /* Добавили воздуха по бокам и сверху/снизу */
         }
 
         .letter-content {
@@ -323,8 +324,8 @@
 
         .letter h2 {
             color: #c0392b;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
             font-family: 'Georgia', serif;
         }
 
@@ -341,9 +342,9 @@
 
         .letter p {
             color: #333;
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin: 0.5rem 0;
+            font-size: 1.05rem;      /* Оптимальный размер шрифта */
+            line-height: 1.65;       /* Комфортный межстрочный интервал */
+            margin: 0 0 1rem 0;      /* Отступы между абзацами */
             font-family: 'Georgia', serif;
         }
 
@@ -351,7 +352,7 @@
             margin-top: 1.5rem;
             font-style: italic;
             color: #764ba2;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
         }
 
         .letter .hearts {
@@ -431,30 +432,28 @@
         }
 
         @media (max-width: 768px) {
-            .header h1 { font-size: 1.8rem; }
+            .header h1 { font-size: 1.6rem; }
             .header p { font-size: 1rem; }
             
-            /* Увеличиваем конверт для мобильных */
+            /* Увеличиваем конверт */
             .envelope-wrapper { width: 340px; height: 250px; }
             .envelope-body::before { border-left-width: 170px; border-right-width: 170px; border-bottom-width: 125px; }
             .envelope-body::after { border-left-width: 170px; border-right-width: 170px; border-top-width: 125px; }
             .envelope-flap { border-left-width: 170px; border-right-width: 170px; border-top-width: 125px; }
             
-            /* Делаем письмо просторным, но без прокрутки */
+            /* Настраиваем лист для телефона */
             .envelope-wrapper.opened .letter { 
                 bottom: 5%;
                 width: 95%;
-                height: auto; /* Высота подстраивается под текст */
-                min-height: 520px; /* Но не меньше 520px, чтобы лист был большим */
-                padding: 2rem 1rem;
+                height: auto;
+                min-height: 620px; /* Высокий лист, чтобы всё влезло без прокрутки */
+                padding: 1.5rem 1.2rem;
                 z-index: 30;
             }
             
-            .letter h2 { font-size: 1.5rem; }
-            .letter p { font-size: 1.05rem; margin: 0.6rem 0; }
-            .letter .cake { font-size: 2.8rem; }
-            .letter .signature { font-size: 1.1rem; }
-            .letter .hearts { font-size: 1.3rem; }
+            .letter h2 { font-size: 1.4rem; margin-bottom: 1rem; }
+            .letter p { font-size: 1rem; line-height: 1.6; margin-bottom: 0.8rem; }
+            .letter .signature { font-size: 1rem; margin-top: 1rem; }
             
             .moon { width: 60px; height: 60px; }
         }
@@ -495,15 +494,19 @@
         <div class="envelope-flap"></div>
         <div class="wax-seal">💌</div>
         <div class="envelope-body"></div>
-        <div class="letter">
+       
+         <div class="letter">
             <div class="letter-content">
-                <h2>С Днём Рождения! </h2>
-                <div class="cake">🎂🕯️</div>
-                <p>Сегодня твой особенный день,</p>
-                <p>и я хочу, чтобы ты знала —</p>
-                <p>ты самая удивительная!</p>
-                <p>Пусть каждый день приносит радость,</p>
-                <p>а мечты сбываются одна за другой! 🌟</p>
+                <h2>С Днём Рождения! 🎂</h2>
+                
+                <p>Ну вот и тебе за 20, небольшая часть пути пройдена, какой-то опыт накоплен.</p>
+                
+                <p>Надеюсь, весь твой путь будет состоять только из радости и веселья, хоть, конечно, и без проблем невозможно обойтись.</p>
+                
+                <p>Я буду верить в тебя, верить, что ты добьёшься всех целей, что все твои мечты будут исполнены, что планы непременно сбудутся.</p>
+                
+                <p>Ну а я всегда буду рядом, на твоей стороне и желать не только сегодня, но и всегда счастья и радости моей красавице.</p>
+                
                 <div class="signature">С любовью, твой Данил 💕</div>
                 <div class="hearts">💖 💖 💖</div>
             </div>
