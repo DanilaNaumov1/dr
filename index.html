@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С Днём Рождения! </title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Georgia', serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: linear-gradient(180deg, #1a1a3e 0%, #2d1b4e 40%, #4a2c6e 70%, #6b3a7d 100%);
+            position: relative;
+        }
+
+        /* Мерцающие звёзды */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.3); }
+        }
+
+        /* Падающие звёзды */
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: shoot 3s linear infinite;
+        }
+
+        .shooting-star::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 1px;
+            background: linear-gradient(to left, white, transparent);
+            top: 0;
+            right: 0;
+            transform-origin: right center;
+        }
+
+        @keyframes shoot {
+            0% { transform: translate(0, 0) rotate(-45deg); opacity: 1; }
+            100% { transform: translate(-500px, 500px) rotate(-45deg); opacity: 0; }
+        }
+
+        /* Луна */
+        .moon {
+            position: fixed;
+            top: 10%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #fff9e6, #f4d03f);
+            border-radius: 50%;
+            box-shadow: 0 0 40px rgba(244, 208, 63, 0.5), 0 0 80px rgba(244, 208, 63, 0.3);
+            z-index: 2;
+            animation: moonGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes moonGlow {
+            0%, 100% { box-shadow: 0 0 40px rgba(244, 208, 63, 0.5), 0 0 80px rgba(244, 208, 63, 0.3); }
+            50% { box-shadow: 0 0 60px rgba(244, 208, 63, 0.7), 0 0 100px rgba(244, 208, 63, 0.5); }
+        }
+
+        /* Облачка */
+        .cloud {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            z-index: 2;
+            animation: float 20s linear infinite;
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+        }
+
+        .cloud::before {
+            width: 60%;
+            height: 120%;
+            top: -50%;
+            left: 20%;
+        }
+
+        .cloud::after {
+            width: 40%;
+            height: 100%;
+            top: -30%;
+            right: 20%;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(-200px); }
+            100% { transform: translateX(calc(100vw + 200px)); }
+        }
+
+        /* Заголовок */
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+            z-index: 10;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(255, 200, 255, 0.8), 0 0 40px rgba(255, 150, 255, 0.5); }
+        }
+
+        /* Конверт */
+        .envelope-container {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            cursor: pointer;
+            z-index: 10;
+            transition: transform 0.3s;
+        }
+
+        .envelope-container:hover {
+            transform: scale(1.05);
+        }
+
+        .envelope-container.opened {
+            cursor: default;
+        }
+
+        .envelope-container.opened:hover {
+            transform: none;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Тело конверта */
+        .envelope-body {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 70%;
+            background: linear-gradient(135deg, #f4e4c1 0%, #e8d5a3 100%);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 3;
+        }
+
+        .envelope-body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-bottom: 80px solid #d4c494;
+        }
+
+        .envelope-body::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid #e8d5a3;
+            border-right: 160px solid #e8d5a3;
+            border-top: 80px solid transparent;
+        }
+
+        /* Клапан конверта */
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 110px solid #f4e4c1;
+            transform-origin: top center;
+            transition: transform 0.8s ease;
+            z-index: 5;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2));
+        }
+
+        .envelope-container.opened .envelope-flap {
+            transform: rotateX(180deg);
+        }
+
+        /* Сургучная печать */
+        .wax-seal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 30% 30%, #ff6b6b, #c0392b);
+            border-radius: 50%;
+            z-index: 6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 -3px 8px rgba(0,0,0,0.2);
+            transition: all 0.5s;
+            animation: sealPulse 2s infinite;
+        }
+
+        @keyframes sealPulse {
+            0%, 100% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 -3px 8px rgba(0,0,0,0.2), 0 0 20px rgba(255, 107, 107, 0.3); }
+            50% { box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 -3px 8px rgba(0,0,0,0.2), 0 0 30px rgba(255, 107, 107, 0.6); }
+        }
+
+        .envelope-container.opened .wax-seal {
+            transform: translate(-50%, -50%) scale(0) rotate(180deg);
+            opacity: 0;
+        }
+
+        /* Письмо */
+        .letter {
+            position: absolute;
+            bottom: 20%;
+            left: 10%;
+            width: 80%;
+            height: 180px;
+            background: linear-gradient(180deg, #fff9e6 0%, #fff 100%);
+            border-radius: 5px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            transition: all 1s ease;
+            padding: 1.5rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .envelope-container.opened .letter {
+            bottom: 120%;
+            height: 400px;
+            width: 90%;
+            left: 5%;
+            z-index: 20;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .letter-content {
+            opacity: 0;
+            transition: opacity 0.5s ease 0.8s;
+        }
+
+        .envelope-container.opened .letter-content {
+            opacity: 1;
+        }
+
+        .letter h2 {
+            color: #c0392b;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .letter .cake {
+            font-size: 3rem;
+            margin: 1rem 0;
+            animation: cakeBounce 1s ease infinite;
+        }
+
+        @keyframes cakeBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .letter p {
+            color: #333;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0.5rem 0;
+            font-family: 'Georgia', serif;
+        }
+
+        .letter .signature {
+            margin-top: 1.5rem;
+            font-style: italic;
+            color: #764ba2;
+            font-size: 1.2rem;
+        }
+
+        .letter .hearts {
+            font-size: 1.5rem;
+            margin-top: 1rem;
+            animation: heartBeat 1.5s ease infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Подсказка */
+        .hint {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 1rem;
+            opacity: 0.8;
+            animation: hintPulse 2s infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes hintPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .envelope-container.opened .hint {
+            display: none;
+        }
+
+        /* Конфетти */
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -10px;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* Светлячки */
+        .firefly {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffd700, 0 0 20px #ffd700;
+            animation: fireflyMove 8s ease-in-out infinite;
+            z-index: 3;
+        }
+
+        @keyframes fireflyMove {
+            0%, 100% { transform: translate(0, 0); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translate(100px, -100px); opacity: 1; }
+            90% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8rem; }
+            .envelope-container { width: 280px; height: 200px; }
+            .envelope-body::before { border-left-width: 140px; border-right-width: 140px; border-bottom-width: 70px; }
+            .envelope-body::after { border-left-width: 140px; border-right-width: 140px; border-top-width: 70px; }
+            .envelope-flap { border-left-width: 140px; border-right-width: 140px; border-top-width: 95px; }
+            .letter h2 { font-size: 1.4rem; }
+            .letter p { font-size: 0.95rem; }
+            .moon { width: 60px; height: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Звёзды -->
+    <div class="stars" id="stars"></div>
+
+    <!-- Луна -->
+    <div class="moon"></div>
+
+    <!-- Облака -->
+    <div class="cloud" style="width: 100px; height: 30px; top: 20%; animation-duration: 25s; animation-delay: 0s;"></div>
+    <div class="cloud" style="width: 150px; height: 40px; top: 40%; animation-duration: 30s; animation-delay: 5s;"></div>
+    <div class="cloud" style="width: 80px; height: 25px; top: 60%; animation-duration: 22s; animation-delay: 10s;"></div>
+    <div class="cloud" style="width: 120px; height: 35px; top: 75%; animation-duration: 28s; animation-delay: 15s;"></div>
+
+    <!-- Светлячки -->
+    <div class="firefly" style="top: 30%; left: 20%; animation-delay: 0s;"></div>
+    <div class="firefly" style="top: 50%; left: 70%; animation-delay: 2s;"></div>
+    <div class="firefly" style="top: 70%; left: 40%; animation-delay: 4s;"></div>
+    <div class="firefly" style="top: 20%; left: 80%; animation-delay: 6s;"></div>
+
+    <!-- Заголовок -->
+    <div class="header">
+        <h1>✨ С Днём Рождения! ✨</h1>
+        <p>У меня для тебя особенное послание...</p>
+    </div>
+
+    <!-- Конверт -->
+    <div class="envelope-container" id="envelope" onclick="openEnvelope()">
+        <div class="envelope">
+            <div class="envelope-flap"></div>
+            <div class="wax-seal">💌</div>
+            <div class="envelope-body"></div>
+            <div class="letter">
+                <div class="letter-content">
+                    <h2>С Днём Рождения! 🎂</h2>
+                    <div class="cake">🎂🕯️</div>
+                    <p>Сегодня твой особенный день,</p>
+                    <p>и я хочу, чтобы ты знала —</p>
+                    <p>ты самая удивительная!</p>
+                    <p>Пусть каждый день приносит радость,</p>
+                    <p>а мечты сбываются одна за другой! 🌟</p>
+                    <div class="signature">С любовью, твой Данил </div>
+                    <div class="hearts">💖 💖 💖</div>
+                </div>
+            </div>
+        </div>
+        <div class="hint"> Нажми на конверт, чтобы открыть</div>
+    </div>
+
+    <!-- Конфетти -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <script>
+        // Создаём звёзды
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                const size = Math.random() * 3 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Создаём падающие звёзды
+        function createShootingStars() {
+            setInterval(() => {
+                const star = document.createElement('div');
+                star.className = 'shooting-star';
+                star.style.top = Math.random() * 50 + '%';
+                star.style.left = (Math.random() * 50 + 50) + '%';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                document.body.appendChild(star);
+                setTimeout(() => star.remove(), 4000);
+            }, 4000);
+        }
+
+        // Открытие конверта
+        let isOpened = false;
+        function openEnvelope() {
+            if (isOpened) return;
+            isOpened = true;
+
+            const envelope = document.getElementById('envelope');
+            envelope.classList.add('opened');
+
+            // Запускаем конфетти
+            setTimeout(() => {
+                createConfetti();
+            }, 800);
+        }
+
+        // Конфетти
+        function createConfetti() {
+            const container = document.getElementById('confettiContainer');
+            const colors = ['#ff6b6b', '#ffd700', '#ff69b4', '#667eea', '#28a745', '#ff8fab', '#f4d03f'];
+
+            for (let i = 0; i < 100; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    confetti.style.animationDelay = Math.random() * 0.5 + 's';
+
+                    // Разные формы
+                    const shape = Math.random();
+                    if (shape < 0.33) {
+                        confetti.style.borderRadius = '50%';
+                    } else if (shape < 0.66) {
+                        confetti.style.width = '15px';
+                        confetti.style.height = '8px';
+                    } else {
+                        confetti.style.width = '8px';
+                        confetti.style.height = '15px';
+                    }
+
+                    container.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 30);
+            }
+        }
+
+        // Инициализация
+        createStars();
+        createShootingStars();
+    </script>
+</body>
+</html>
