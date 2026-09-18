@@ -276,47 +276,38 @@
 
         /* Письмо - исправленное */
         .letter {
-            position: absolute;
-            bottom: 10%;
+            position: fixed; /* Отвязываем от конверта */
+            top: 50%;
             left: 50%;
-            transform: translateX(-50%);
-            width: 85%;
-            height: 180px;
+            transform: translate(-50%, -30%) scale(0.9); /* Начальное положение для анимации */
+            width: 90%;
+            max-width: 480px; /* Чтобы на ПК лист не был слишком широким */
+            max-height: 90vh; /* Защита: не выше 90% экрана */
             background: linear-gradient(180deg, #fff9e6 0%, #fff 100%);
-            border-radius: 5px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            z-index: 2;
-            transition: all 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            padding: 1rem;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            padding: 2rem 1.5rem;
+            overflow-y: auto; /* Появится скролл, ТОЛЬКО если текст вдруг не влезет */
+            opacity: 0;
+            pointer-events: none; /* Скрываем клики, пока письмо закрыто */
+            transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .envelope-wrapper.opened .letter {
-            bottom: 10%;
-            width: 92%;
-            height: auto;            /* Высота подстраивается под текст */
-            min-height: 580px;       /* Минимальная высота, чтобы лист был большим */
-            z-index: 20;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
-            padding: 2.5rem 2rem;    /* Добавили воздуха по бокам и сверху/снизу */
+            transform: translate(-50%, -50%) scale(1); /* Встаем ровно по центру */
+            opacity: 1;
+            pointer-events: auto;
         }
 
         .letter-content {
             opacity: 0;
-            transition: opacity 0.8s ease 1s;
+            transition: opacity 0.8s ease 0.3s; /* Текст появляется чуть позже */
             width: 100%;
-            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Текст теперь идет сверху вниз */
-            padding-top: 1.5rem; /* Отступ от верхнего края листа */
-            padding-bottom: 1.5rem;
+            justify-content: center; /* Центрируем текст внутри листа */
         }
 
         .envelope-wrapper.opened .letter-content {
@@ -436,6 +427,7 @@
             .header h1 { font-size: 1.6rem; }
             .header p { font-size: 1rem; }
             
+            /* Увеличиваем конверт для мобильных */
             .envelope-wrapper { width: 340px; height: 250px; }
             .envelope-body::before { border-left-width: 170px; border-right-width: 170px; border-bottom-width: 125px; }
             .envelope-body::after { border-left-width: 170px; border-right-width: 170px; border-top-width: 125px; }
@@ -443,31 +435,22 @@
             
             /* Настраиваем лист для телефона */
             .envelope-wrapper.opened .letter { 
-                bottom: 5%;
-                width: 95%;
-                height: auto;
-                min-height: 660px; /* Увеличили высоту, чтобы всё влезло */
-                padding: 2rem 1.2rem 1.5rem 1.2rem; /* Добавили отступы */
-                z-index: 30;
+                width: 92%;
+                padding: 1.5rem 1rem;
+                max-height: 85vh; /* Ограничиваем высоту экраном телефона */
             }
             
-            .letter h2 { font-size: 1.4rem; margin-bottom: 1rem; }
-            .letter p { font-size: 1rem; line-height: 1.6; margin-bottom: 0.8rem; }
-            .letter .signature { font-size: 1rem; margin-top: 1rem; }
+            .letter h2 { font-size: 1.3rem; margin-bottom: 0.8rem; }
+            .letter p { font-size: 0.95rem; line-height: 1.5; margin-bottom: 0.6rem; }
+            .letter .signature { font-size: 0.95rem; margin-top: 0.8rem; }
+            .letter .hearts { font-size: 1.2rem; margin-top: 0.5rem; }
+            .letter .cake { font-size: 2.5rem; margin: 0.5rem 0; }
             
             .moon { width: 60px; height: 60px; }
         }
 
                 /* Для телефонов с маленькой высотой экрана */
-        @media (max-height: 740px) and (max-width: 768px) {
-            .envelope-wrapper.opened .letter {
-                min-height: 420px; /* Уменьшаем лист */
-                padding: 1rem;
-            }
-            .letter h2 { font-size: 1.3rem; }
-            .letter p { font-size: 0.95rem; margin: 0.4rem 0; }
-            .letter .cake { font-size: 2.2rem; margin: 0.5rem 0; }
-        }
+        
     </style>
 </head>
 <body>
