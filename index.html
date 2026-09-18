@@ -314,8 +314,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 1rem;
+            justify-content: flex-start; /* Текст теперь идет сверху вниз */
+            padding-top: 1.5rem; /* Отступ от верхнего края листа */
+            padding-bottom: 1.5rem;
         }
 
         .envelope-wrapper.opened .letter-content {
@@ -435,7 +436,6 @@
             .header h1 { font-size: 1.6rem; }
             .header p { font-size: 1rem; }
             
-            /* Увеличиваем конверт */
             .envelope-wrapper { width: 340px; height: 250px; }
             .envelope-body::before { border-left-width: 170px; border-right-width: 170px; border-bottom-width: 125px; }
             .envelope-body::after { border-left-width: 170px; border-right-width: 170px; border-top-width: 125px; }
@@ -446,8 +446,8 @@
                 bottom: 5%;
                 width: 95%;
                 height: auto;
-                min-height: 620px; /* Высокий лист, чтобы всё влезло без прокрутки */
-                padding: 1.5rem 1.2rem;
+                min-height: 660px; /* Увеличили высоту, чтобы всё влезло */
+                padding: 2rem 1.2rem 1.5rem 1.2rem; /* Добавили отступы */
                 z-index: 30;
             }
             
